@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -90,12 +91,12 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myblog',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': '',
-        'PORT': '',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'myblog',
+        # 'HOST': 'localhost',
+        # 'USER': 'root',
+        # 'PASSWORD': '',
+        # 'PORT': '',
     }
 }
 
@@ -183,3 +184,4 @@ TAGGIT_CASE_INSENSITIVE = True
 SESSION_COOKIE_AGE = 5*60
 SESSION_SAVE_EVERY_REQUEST = True 
 
+django_heroku.settings(locals())
