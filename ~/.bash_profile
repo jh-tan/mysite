@@ -1,0 +1,3 @@
+#Django Blog
+export SECRET_KEY="e8e27706363415361ff6e71bf304cb448e91aa118e2ee931"
+export DEBUG_VALUE="TRUE"
