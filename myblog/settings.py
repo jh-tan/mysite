@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'taggit',
-
+    'storages',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -176,6 +176,10 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/media/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+DROPBOX_OAUTH2_TOKEN = 'sl.AgFku3YMiWO1LjIrCkeTbS2T-bpRqOJQlLhxdXDCmWC58mWnOupCsuNV3r9edWJ-pXtPCWRQV6mg1qFe0Tnd_rzqjES-gvKfur02kw5fQKywj2UFYP5f9TYbHjyRc2Nrw5Cs7qU'
+DROPBOX_ROOT_PATH = 'media'
 
 CKEDITOR_CONFIGS = {
     'default':
