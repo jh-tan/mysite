@@ -139,11 +139,13 @@ def tagged(request, slug):
 def get_carousel(Post):
     li=[]
     while True:
-        number=random.randint(int(Post.objects.first().pk),int(Post.objects.last().pk))
         try:
+            number=random.randint(int(Post.objects.first().pk),int(Post.objects.last().pk))
             post=Post.objects.get(pk=number)
             if number not in li:
                 li.append(number)
+        except AttributeError:
+            break;
         except:
             continue
         if len(li)==3:
