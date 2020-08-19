@@ -28,7 +28,7 @@ key=os.environ.get('Django_SECRET_KEY')
 SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['django-based-blog.herokuapp.com']
 
