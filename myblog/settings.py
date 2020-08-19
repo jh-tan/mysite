@@ -28,7 +28,7 @@ key=os.environ.get('Django_SECRET_KEY')
 SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['django-based-blog.herokuapp.com']
 
@@ -177,11 +177,6 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-DROPBOX_OAUTH2_TOKEN = 'sl.AgHFIJZF41k2hnNM3U5eObhqk235wJolsLnixVGXNAS7TI1sQk6aBZg3aPtoCvoDBfpUolS__LMFSheEUL9E4acfaXZVUPbNWjRvAx9D5zUwsuupbuNU799ecyKpksxC2MjljBE'
-DROPBOX_ROOT_PATH = ""
-DROPBOX_APP_KEY = "usf2hyjf6rtk2lt"
-DROPBOX_APP_SECRET_KEY = "4tumnar134w0a3f"
 
 CKEDITOR_CONFIGS = {
     'default':
