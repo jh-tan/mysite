@@ -60,7 +60,7 @@ def home(response):
 
         page_obj=p.get_page(page_number)
         carousel_obj=get_carousel(Post)
-        
+
         if carousel_obj:
             hasCarousel=True
             context= {
@@ -130,14 +130,24 @@ def tagged(request, slug):
     posts = Post.objects.filter(tags=tag)
     carousel_obj=get_carousel(Post)
     most_common = Post.tags.most_common()[:10]
-    context = {
-        'tag':tag,
-        'posts':posts,
-        'img1':Post.objects.get(pk=carousel_obj[0]),
-        'img2':Post.objects.get(pk=carousel_obj[1]),
-        'img3':Post.objects.get(pk=carousel_obj[2]),
-        'common':most_common
-    }
+    if carousel_obj:
+            hasCarousel=True
+            context = {
+                'tag':tag,
+                'posts':posts,
+                'img1':Post.objects.get(pk=carousel_obj[0]),
+                'img2':Post.objects.get(pk=carousel_obj[1]),
+                'img3':Post.objects.get(pk=carousel_obj[2]),
+                'common':most_common,
+                'hasCarousel':hasCarousel
+            }
+    else:
+            hasCarousel=False
+            context= {
+                'posts':posts,'tag':tag,
+                'common':most_common,'hasCarousel':hasCarousel
+            }
+   
     query=request.GET.get("q")
     if query:
         return search_post(request,query)
@@ -190,13 +200,25 @@ def search_post(response,word):
     posts=Post.objects.filter(Q(title__icontains=word)|
     Q(text__icontains=word)|Q(author__username__icontains=word)).order_by('-published_date')
     carousel_obj=get_carousel(Post)
-    context = {
-    'posts':posts,
-    'img1':Post.objects.get(pk=carousel_obj[0]),
-    'img2':Post.objects.get(pk=carousel_obj[1]),
-    'img3':Post.objects.get(pk=carousel_obj[2]),
-    'common':most_common
-    }
+
+    if carousel_obj:
+            hasCarousel=True
+            context = {
+                'posts':posts,
+                'img1':Post.objects.get(pk=carousel_obj[0]),
+                'img2':Post.objects.get(pk=carousel_obj[1]),
+                'img3':Post.objects.get(pk=carousel_obj[2]),
+                'common':most_common,
+                'hasCarousel':hasCarousel
+            }
+    else:
+            hasCarousel=False
+            context= {
+                'posts':posts,
+                'common':most_common,'hasCarousel':hasCarousel
+            } 
+
+    
     return render(response,"blog/home.html",context)
 
 def archive_list(response):
