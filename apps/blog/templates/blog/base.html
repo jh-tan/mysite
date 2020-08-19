@@ -1,0 +1,119 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+    {% block header %}
+    <head>
+        {% block head_title %} <title>Random Blog</title> {% endblock %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'blog/img/favicon.png' %}"/>
+        <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/css/bootstrap-tagsinput.css' %}"/>
+        <link rel="stylesheet"href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark.min.css">
+    </head>
+    <body>
+        <header class="navbar">
+            <div class="home_logo">
+              <a href="/">
+                <img class="logo" src="{% static 'blog/img/logo.png' %}" alt="logo">
+              </a>
+              <a class="home_logo" href="/">Random Blog</a>
+                
+            </div>
+            <nav>
+                <ul class="nav_links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'create' %}">Create Post</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'archive' %}">Archive</a></li>
+                </ul>
+            </nav>
+            <nav>
+                <ul class="nav_links">
+                    {% if user.is_authenticated %}
+                        <span id="user-action">
+                            <p>Hello, {{ user.username }}</p>
+                            <li><a href="{% url 'user_logout' %}">Logout</a></li>
+                        </span>
+                        {% else %}
+                        <li><a href="{% url 'login' %}">SignUp/Login</a></li>
+                        <!-- <li><a href="">Register</a></li> -->
+                    {% endif %}
+                    </ul>
+            </nav>
+        </header>
+        {% endblock %}
+        {% block container%}{% endblock %}
+        {% block form %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block archive %}{% endblock %}
+
+        <footer>
+          <span>
+            Coded by J.Hui
+          </span>
+          <small>Copyright &copy; 2020, J.Hui All Rights Reserved</small>
+        </footer>
+
+        <script src="{% static 'blog/js/headroom.js'%}"></script>
+        <script src="{% static 'blog/js/moment.js'%}"></script>
+        <script src="{% static 'blog/js/jquery.js'%}"></script>
+        <script src="{% static 'blog/js/bootstrap-tagsinput.js' %}"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script>
+            var slideIndex = 0;
+            var timer = null;
+            showSlides(slideIndex);
+
+            function dotN(n){
+              clearTimeout(timer)
+              showSlides(slideIndex = n)
+            }
+
+
+            function showSlides(n) {
+              var i;
+              var slides = document.getElementsByClassName("mySlides");
+              var dots = document.getElementsByClassName("dot");
+              for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+              }
+              slideIndex++;
+              if (slideIndex > slides.length) {slideIndex = 1}    
+              for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+              }
+              slides[slideIndex-1].style.display = "block";  
+              dots[slideIndex-1].className += " active";
+              timer = setTimeout(showSlides, 4000); // Change image every 4 seconds
+            }
+            </script>
+            <script>
+                $(function(){
+                  var myElement=document.querySelector(".navbar");
+                  var headroom=new Headroom(myElement);
+                  headroom.init();
+                });
+            </script>
+            <script>
+            $("#post-form").submit(function(e){
+              e.preventDefault();
+            });
+          </script>
+          <script>
+            $(".comment-reply-btn").click(function(event){
+                event.preventDefault();
+                $(this).parents().eq(2).nextAll().eq(1).fadeToggle()
+            })
+          </script>
+          <script>
+            function renderDate(){
+              $(".date-rendering").each(function() {
+                  let a = moment($(this).html()).utc().local().format("ddd, DD MMMM YYYY H:mm");
+                  $(this).html(a);
+                });
+              }
+              renderDate();
+            </script>
+      </body>
+</html>

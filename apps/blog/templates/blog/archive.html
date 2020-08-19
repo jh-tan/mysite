@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load date_extras %}
+
+
+
+{% block archive %}
+    <main class="archive-container">
+        <div class="article-view">
+            {% regroup posts by published_date.year as posts_by_year %}
+            <ul id="archive-year">
+                {% for year in posts_by_year %}
+                <li>Year {{ year.grouper }}
+                    {% regroup year.list by published_date.month as posts_by_month %}
+                    <ul id="archive-month">
+                        {% for month in posts_by_month %}
+                        <li id="{{ year.grouper }}{{ month.grouper|stringformat:'%B' }}">{{month.grouper|month }} 
+                            <ul id="archive-day">
+                                {% for post in month.list %}
+                                <li>{{ post.published_date.day|stringformat:'02d' }} / {{month.grouper|stringformat:'02d'}} <a href="{{ post.get_absolute_url }}" class="">{{ post.title }}</a> </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+    </div>
+</main>
+{% endblock %}

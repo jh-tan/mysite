@@ -1,0 +1,136 @@
+{% extends 'blog/base.html' %}
+{% load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+    <body>
+        {% block container %}
+        <main>
+            <div class="container">
+                <div class="column left">
+                    <div class="carousel">
+                        <div class="mySlides fade">
+                            {% if img1.thumbnail %}
+                            <a href="{% url 'article' pk=img1.pk pt=img1.title %}"><img src="{{ img1.thumbnail.url }}" style="width:100%;height:25rem;"></a>
+                            <div class="text">{{ img1.title }}</div>
+                            {% else %}
+                                <a class="no-thumbnail" href="{% url 'article' pt=img1.title pk=img1.pk %}"><h1>Thumbnail not found!</h1></a>
+                                <div class="text">{{ img1.title }}</div>
+                            {% endif %}
+                          </div>
+                          
+                          <div class="mySlides fade">
+                            {% if img2.thumbnail %}
+                                <a href="{% url 'article' pk=img2.pk pt=img2.title %}"><img src="{{ img2.thumbnail.url }}" style="width:100%;height:25rem;"></a>
+                                <div class="text">{{ img2.title }}</div>
+                            {% else %}
+                                <a class="no-thumbnail" href="{% url 'article' pt=img2.title pk=img2.pk %}"><h1>Thumbnail not found!</h1></a>
+                                <div class="text">{{ img2.title }}</div>
+                            {% endif %}
+                          </div>
+
+                          <div class="mySlides fade">
+                            {% if img3.thumbnail %}
+                            <a href="{% url 'article' pt=img3.title pk=img3.pk %}"><img src="{{ img3.thumbnail.url }}" style="width:100%;height:25rem;"></a>
+                            <div class="text">{{ img3.title }}</div>
+                            {% else %}
+                                <a class="no-thumbnail" href="{% url 'article' pt=img3.title pk=img3.pk %}"><h1>Thumbnail not found!</h1></a>
+                                <div class="text">{{ img3.title }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <div style="text-align:center">
+                        <button onclick="dotN(0)" class="dot"></button>
+                        <button onclick="dotN(1)" class="dot"></button>
+                        <button onclick="dotN(2)" class="dot"></button>
+                      </div>
+                          <div class="post-list">
+                            {% for post in posts %}
+                            <div class="post-container">
+                                <span id="post-header">
+                                    <a href="{% url 'article' pk=post.pk pt=post.title %}">{{ post.title }}</a>
+                                    {% if user.is_authenticated and user == post.author %}
+                                    <span id="edit-delete">
+                                        <a href="{% url 'edit' pk=post.pk pt=post.title %}">Edit</a>
+                                        <a href="{% url 'delete' pk=post.pk pt=post.title %}">Delete</a>
+                                    </span>
+                                    {% endif %}
+                                </span>
+                                <div class="post-description">
+                                {% if post.thumbnail %}
+                                <div id="post-media">
+                                    <a href="{% url 'article' pk=post.pk pt=post.title %}">
+                                        <img src="{{ post.thumbnail.url }}">
+                                    </a>
+                                </div>
+                                {% else %}
+                                <div id="post-media">
+                                    <a href="{% url 'article' pk=post.pk pt=post.title %}">
+                                    <h1>
+                                        Thumbnail not found!
+                                    </h1>
+                                    </a>
+                                </div>
+                                {% endif %}
+                                    <div class="post-detail-view">
+                                        <div class="note"> {{ post.description|safe}} 
+                                        <a href="{% url 'article' pk=post.pk pt=post.title %}">Read more</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="post-row-1">
+                                    <p>{{post.author.username}} | </p>
+                                    <p class="date-rendering">
+                                        {{ post.published_date|date:"r" }}
+                                    </p>
+                                </span>
+                                <span id="post-tag">
+                                    {% for tag in post.tags.all %}
+                                    <p><a href="{% url 'tagged' tag.slug %}" class="mr-1 badge badge-info">{{ tag }}</a></p>
+                                    {% endfor %}
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="paginator-btn">
+                            
+                            {% if page_obj.has_previous %}
+                                <a class="paginator-btn " href="?page=1">First</a>
+                                <a class="paginator-btn" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            {% endif %}
+                            <p>{{page_obj.number}} / {{page_obj.paginator.num_pages}}</p>
+                            {% if page_obj.has_next %}
+                                <a class="paginator-btn" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                <a class="paginator-btn" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                        <div class="column right">
+                    <form method='GET' class="form-inline my-2 my-lg-0">
+                        <div class ="search" >
+                            <h1 >Site Search</h1>
+                            <input type="text" placeholder="Search.." name = "q" style="width:17rem;height:2.3rem;margin: 0 auto;">
+                            <button class="searchbtn" type="submit"> Search </button>
+                        </div>
+                    </form>
+                    <div class = "tagging">
+                        <h1>Common Tag</h1>
+                        <hr>
+                            <div class="common_tag">
+                                <ul>
+                                    {% for tag in common %}
+                                    <li><a href="{% url 'tagged' tag.slug %}" class="mr-1 badge badge-info">{{ tag }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                    </div>
+                </div>
+            </div> 
+        </main>
+        {% endblock %}
+        
+    </body>
+</html>

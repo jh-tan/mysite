@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+{% load static%}
+
+<!DOCTYPE html>
+<html>
+  <head>
+        {% block head_title %} <title>Create Post</title> {% endblock %}
+  </head>
+    <body>
+        {% block form %}
+        <form method="post" enctype="multipart/form-data">
+            {{ form.media }}
+            {% csrf_token %}
+            {% for x in form %}
+              <div class="create-control">
+                <p>
+                  {{x.label_tag}}
+                </p>
+                  {% if x.name == "tags" %}
+                    <input type="text" data-role="tagsinput" class="form-control bootstrap-tagsinput" name="tags">
+                  {% else %}
+                  {{x}}
+                  {% endif %}
+              </div>
+            {% endfor %}
+            <button class="searchbtn" type="submit", name="save">{{ custom }}</button>
+            <br>
+            </form>
+        {% endblock %}
+    </body>
+</html>
