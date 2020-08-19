@@ -90,16 +90,7 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         # 'ENGINE': 'django.db.backends.mysql',
-#         # 'NAME': 'myblog',
-#         # 'HOST': 'localhost',
-#         # 'USER': 'root',
-#         # 'PASSWORD': '',
-#         # 'PORT': '',
-#     }
-# }
+
 DATABASES = { 'default': dj_database_url.config() }
 
 
@@ -130,7 +121,7 @@ AUTHENTICATION_BACKENDS = (
 
 )
 
-SITE_ID = 3
+SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 
