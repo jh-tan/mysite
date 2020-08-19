@@ -60,13 +60,20 @@ def home(response):
 
         page_obj=p.get_page(page_number)
         carousel_obj=get_carousel(Post)
-
-
-        context= {
-            'posts':posts,'curr':current,'page_obj':page_obj,
-            'common':most_common,'img1':Post.objects.get(pk=carousel_obj[0]),'img2':Post.objects.get(pk=carousel_obj[1])
-            ,'img3':Post.objects.get(pk=carousel_obj[2])
-        }
+        
+        if carousel_obj:
+            hasCarousel=True
+            context= {
+                'posts':posts,'curr':current,'page_obj':page_obj,
+                'common':most_common,'img1':Post.objects.get(pk=carousel_obj[0]),'img2':Post.objects.get(pk=carousel_obj[1])
+                ,'img3':Post.objects.get(pk=carousel_obj[2]),'hasCarousel':hasCarousel
+            }
+        else:
+            hasCarousel=False
+            context= {
+                'posts':posts,'curr':current,'page_obj':page_obj,
+                'common':most_common,'hasCarousel':hasCarousel
+            }
         return render(response,"blog/home.html",context)
 
 def create(response):
@@ -138,19 +145,19 @@ def tagged(request, slug):
 
 def get_carousel(Post):
     li=[]
+    if(Post.objects.count()<3):
+        return False
     while True:
         try:
             number=random.randint(int(Post.objects.first().pk),int(Post.objects.last().pk))
             post=Post.objects.get(pk=number)
             if number not in li:
                 li.append(number)
-        except AttributeError:
-            break;
         except:
             continue
         if len(li)==3:
-            break
-    return li
+            return li
+    return False
 
 def post_edit(request,pk,pt=None):
     post = get_object_or_404(Post, pk=pk)

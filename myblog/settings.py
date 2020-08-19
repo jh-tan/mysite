@@ -22,8 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'a!0pb=_*p!tnr&5-*t7p^6l(m!31v!v!lum(70iy)epn-$ix-u'
-# SECRET_KEY = os.environ.get('Django_SECRET_KEY')
+# SECRET_KEY = 'a!0pb=_*p!tnr&5-*t7p^6l(m!31v!v!lum(70iy)epn-$ix-u'
+
+key=os.environ.get('Django_SECRET_KEY')
+SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,6 +91,18 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'NAME' : 'myblog',
+#         'HOST':'localhost',
+#         'USER':'root',
+#         'PASSWORD':'',
+#         'PORT' : '',
+#         'default-character-set':'utf-8'
+#     }
+# }
 
 
 DATABASES = { 'default': dj_database_url.config() }
