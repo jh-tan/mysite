@@ -9,8 +9,3 @@ Blog link : https://django-based-blog.herokuapp.com/
 * Comment and reply 
 * Search
 * Tagging
-
-## To do
-* Template rendereing to be done in frontend
-* File storage with AWS S3/GCP to allow user to upload thumbnail/files
-* Notification 
